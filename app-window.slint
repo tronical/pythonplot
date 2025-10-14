@@ -1,0 +1,12 @@
+export component AppWindow inherits Window {
+    in property <string> path-commands: "M 0,0 L 1,1";
+    p := Path {        
+        stroke-width: 1px;
+        stroke: red;
+
+        commands: root.path-commands;
+
+        viewbox-width: 1;
+        viewbox-height: 1;
+    }
+}
