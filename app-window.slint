@@ -1,12 +1,32 @@
+import { Slider, Button } from "std-widgets.slint";
+
 export component AppWindow inherits Window {
-    in property <string> path-commands: "M 0,0 L 1,1";
-    p := Path {        
-        stroke-width: 1px;
-        stroke: red;
+    property <float> pan: 0.0;
+    in-out property <int> data-serial: 0;
+    pure callback render_plot(zoom: float, pan: float, data-serial: int) -> image;
 
-        commands: root.path-commands;
-
-        viewbox-width: 1;
-        viewbox-height: 1;
+    VerticalLayout {
+        alignment: start;
+        Image {
+            source: root.render_plot(zoom-slider.value, root.pan, root.data-serial);
+        }
+        HorizontalLayout {
+            Button {
+                text: "⬅️";
+                clicked => {
+                    root.pan -= 1;
+                }
+            }
+            Button {
+                text: "➡️";
+                clicked => {
+                    root.pan += 1;
+                }
+            }
+            zoom-slider := Slider {
+                minimum: 0.1;
+                maximum: 1.0;
+            }
+        }
     }
 }
